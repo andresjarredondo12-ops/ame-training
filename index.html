@@ -3,23 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Training System Pro</title>
+<title>CrossFit Pro Periodization</title>
 
 <style>
-body{margin:0;background:#0b1020;color:#fff;font-family:Arial;padding:20px}
-.container{max-width:1400px;margin:auto}
+body{margin:0;background:#0b1020;color:white;font-family:Arial;padding:20px}
+.container{max-width:1200px;margin:auto}
 h1{color:#60a5fa}
-.tabs{display:flex;gap:10px;margin:20px 0}
-button{padding:12px;border-radius:10px;border:0;cursor:pointer;background:#1f2937;color:white;font-weight:bold}
-button.active{background:#2563eb}
-.panel{display:none;background:#111827;padding:20px;border-radius:15px}
-.panel.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-input,select{width:100%;padding:10px;border-radius:8px;border:0;background:#1f2937;color:white}
 .card{background:#1f2937;padding:10px;border-radius:10px}
-.day{margin-top:20px;background:#0f172a;padding:15px;border-radius:10px}
-.block{background:#1f2937;padding:10px;border-radius:10px;margin-top:10px}
-.ex{padding:8px;background:#374151;margin:5px 0;border-radius:8px}
+input,select{width:100%;padding:10px;border-radius:8px;border:0;background:#111827;color:white}
+button{padding:12px;background:#2563eb;border:0;color:white;font-weight:bold;border-radius:10px;cursor:pointer;margin-top:10px}
+.day{margin-top:20px;background:#111827;padding:15px;border-radius:10px}
+.block{background:#1f2937;padding:10px;margin-top:10px;border-radius:10px}
+.ex{padding:6px;background:#374151;margin:5px 0;border-radius:6px}
+.small{opacity:.8;font-size:13px}
 </style>
 </head>
 
@@ -27,249 +24,156 @@ input,select{width:100%;padding:10px;border-radius:8px;border:0;background:#1f29
 
 <div class="container">
 
-<h1>🏋️ Elite Training System</h1>
-
-<div class="tabs">
-<button class="active" onclick="tab('cf')">CrossFit</button>
-<button onclick="tab('bb')">Musculación</button>
-</div>
-
-<!-- CROSSFIT -->
-<div id="cf" class="panel active">
-
-<h2>CrossFit</h2>
+<h1>🏋️ CrossFit Pro Periodization (12 semanas)</h1>
 
 <div class="grid">
 
 <div class="card">
-Objetivo
-<select id="cfGoal">
-<option>Fuerza</option>
-<option>Aeróbico</option>
-<option>Competencia</option>
+Días por semana
+<select id="days">
+<option>3</option>
+<option>4</option>
+<option>5</option>
 </select>
 </div>
 
 <div class="card">
-Días
-<select id="cfDays">
-<option>2</option><option>3</option><option>4</option><option>5</option>
+Back Squat RM
+<input id="sq" type="number">
+</div>
+
+<div class="card">
+Deadlift RM
+<input id="dl" type="number">
+</div>
+
+<div class="card">
+Press RM
+<input id="bp" type="number">
+</div>
+
+<div class="card">
+Nivel atleta
+<select id="lvl">
+<option>Intermedio</option>
+<option>Avanzado</option>
 </select>
 </div>
 
-<div class="card">
-Back Squat RM <input id="cfSq">
 </div>
 
-<div class="card">
-Deadlift RM <input id="cfDl">
-</div>
+<button onclick="generate()">Generar Programación PRO</button>
 
-<div class="card">
-Bench RM <input id="cfBp">
-</div>
-
-</div>
-
-<button onclick="genCF()">Generar CrossFit</button>
-
-<div id="outCF"></div>
-
-</div>
-
-<!-- MUSCULACION -->
-<div id="bb" class="panel">
-
-<h2>Musculación</h2>
-
-<div class="grid">
-
-<div class="card">
-Objetivo
-<select id="bbGoal">
-<option>Hipertrofia</option>
-<option>Fuerza</option>
-</select>
-</div>
-
-<div class="card">
-Días
-<select id="bbDays">
-<option>2</option><option>3</option><option>4</option><option>5</option>
-</select>
-</div>
-
-<div class="card">
-Piernas en BB
-<select id="legs">
-<option value="yes">Sí</option>
-<option value="no">No</option>
-</select>
-</div>
-
-<div class="card">
-Brazos foco
-<select id="arms">
-<option value="no">No</option>
-<option value="yes">Sí</option>
-</select>
-</div>
-
-<div class="card">Bench RM<input id="bbBp"></div>
-<div class="card">Squat RM<input id="bbSq"></div>
-<div class="card">Deadlift RM<input id="bbDl"></div>
-
-</div>
-
-<button onclick="genBB()">Generar Musculación</button>
-
-<div id="outBB"></div>
-
-</div>
+<div id="out"></div>
 
 </div>
 
 <script>
 
-function tab(id){
-document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"))
-document.querySelectorAll("button").forEach(b=>b.classList.remove("active"))
-document.getElementById(id).classList.add("active")
-event.target.classList.add("active")
+function pct(week,base){
+
+// periodización real 3 bloques + deload
+
+if(week<=3) return base-10
+if(week<=6) return base
+if(week<=9) return base+5
+return base-15
 }
 
 function w(rm,p){return Math.round(rm*p/100)}
 
-function ex(n,s,r,p,rm){
-return `<div class="ex">${n} ${s}x${r} | ${p}% | ${w(rm,p)}kg</div>`
+function ex(name,sets,reps,p,rm){
+return `<div class="ex">${name} ${sets}x${reps} | ${p}% | ${w(rm,p)}kg</div>`
 }
 
-/* ================= CROSSFIT ================= */
+/* ================= WODS POR SISTEMA ================= */
 
-function genCF(){
-
-let days=parseInt(cfDays.value)
-let sq=parseInt(cfSq.value||120)
-let dl=parseInt(cfDl.value||150)
-let bp=parseInt(cfBp.value||100)
-
-let base=[
-ex("Back Squat",5,5,80,sq),
-ex("Deadlift",5,5,82,dl),
-ex("Bench Press",5,5,78,bp)
+const wods=[
+"AMRAP 12: 10 Burpees + 12 Wall Balls + 200m Run",
+"FOR TIME: 21-15-9 Thrusters + Pullups",
+"EMOM 16: 12 Cal Row + 10 Deadlift ligero + 8 Burpees",
+"INTERVALOS: 5x400m Run descanso corto"
 ]
 
-let html="<h2>CrossFit Plan</h2>"
+const skills=[
+"Handstand Walk técnica",
+"Muscle Up progresiones",
+"Double Unders eficiencia",
+"Toes to Bar control"
+]
 
-for(let i=1;i<=days;i++){
+function random(a){
+return a[Math.floor(Math.random()*a.length)]
+}
 
+/* ================= PLANIFICACION PRO ================= */
+
+function generate(){
+
+let days=parseInt(document.getElementById("days").value)
+let sq=parseInt(document.getElementById("sq").value||140)
+let dl=parseInt(document.getElementById("dl").value||180)
+let bp=parseInt(document.getElementById("bp").value||100)
+
+let html="<h2>📊 Planificación 12 semanas CrossFit PRO</h2>"
+
+for(let w=1; w<=12; w++){
+
+html+=`<div class="day">
+<h3>Semana ${w}</h3>`
+
+// tipos de sesión estructurados
+
+for(let d=1; d<=days; d++){
+
+let type = (d + w) % 3
+
+html+=`<div class="block">
+<h4>Día ${d}</h4>`
+
+/* ================= ESTRUCTURA REAL ================= */
+
+if(type===0){
+
+// FUERZA + WOD corto intenso
 html+=`
-<div class="day">
-<h3>Día ${i}</h3>
+<div class="small">FOCUS: Fuerza + Potencia</div>
+${ex("Back Squat",5,5,pct(w,80),sq)}
+${ex("Deadlift",5,3,pct(w,85),dl)}
 
-<div class="block">
-<h4>Fuerza</h4>
-${base[i%base.length]}
-</div>
-
-<div class="block">
-<h4>Skill</h4>
-Muscle Up / Handstand / T2B
-</div>
-
-<div class="block">
-<h4>WOD</h4>
-AMRAP 12: Burpees + Row + KB Swing
-</div>
-
-<div class="block">
-<h4>MetCon</h4>
-Run + Box Jump + Wall Ball
-</div>
-
-<div class="block">
-<h4>Movilidad</h4>
-Stretching 10 min
-</div>
-
-</div>
+<div class="ex">WOD: Sprint 8-10 min (alta intensidad)</div>
 `
 }
 
-outCF.innerHTML=html
-}
+if(type===1){
 
-/* ================= MUSCULACION ================= */
-
-function genBB(){
-
-let days=parseInt(bbDays.value)
-let legsOpt=legs.value
-let armsOpt=arms.value
-
-let bp=parseInt(bbBp.value||100)
-let sq=parseInt(bbSq.value||140)
-let dl=parseInt(bbDl.value||180)
-
-let html="<h2>Musculación Plan</h2>"
-
-function push(){
-return `
-${ex("Bench Press",4,8,75,bp)}
-<div class="ex">Incline DB 4x10</div>
-<div class="ex">Shoulder Press 4x10</div>
-<div class="ex">Lateral Raises 4x15</div>
-<div class="ex">Chest Fly 4x12</div>
-`
-+ (armsOpt=="yes"
-? `<div class="ex">Triceps Pushdown 4x12</div><div class="ex">Skull Crushers 4x10</div>`:"")
-}
-
-function pull(){
-return `
-<div class="ex">Barbell Row 4x10</div>
-<div class="ex">Lat Pulldown 4x12</div>
-<div class="ex">Seated Row 4x12</div>
-<div class="ex">Face Pull 4x15</div>
-<div class="ex">Rear Delt 4x15</div>
-`
-+ (armsOpt=="yes"
-? `<div class="ex">Biceps Curl 4x12</div><div class="ex">Hammer Curl 4x12</div>`:"")
-}
-
-function legs(){
-return `
-${ex("Back Squat",5,5,80,sq)}
-${ex("Deadlift",5,3,85,dl)}
-<div class="ex">Leg Press 4x12</div>
-<div class="ex">Leg Curl 4x12</div>
-<div class="ex">Bulgarian Split Squat 4x10</div>
-`
-}
-
-for(let i=1;i<=days;i++){
-
-let type = i%3
-
+// ENGINE DAY
 html+=`
-<div class="day">
-<h3>Día ${i}</h3>
-
-<div class="block">
-<h4>Trabajo principal</h4>
-${type==0 ? push() : type==1 ? pull() : (legsOpt=="yes" ? legs() : push())}
-</div>
-
-<div class="block">
-<h4>Core</h4>
-Plank + Hanging Leg Raises + Ab Wheel
-</div>
-
-</div>
+<div class="small">FOCUS: Aeróbico / Engine</div>
+<div class="ex">Row 3-5km ritmo constante</div>
+<div class="ex">Bike intervals 6x2 min</div>
+<div class="ex">Core + movilidad activa</div>
 `
 }
 
-outBB.innerHTML=html
+if(type===2){
+
+// SKILL + MODERADO
+html+=`
+<div class="small">FOCUS: Skill + Metcon medio</div>
+<div class="ex">Skill: ${random(skills)}</div>
+<div class="ex">Bench Press 4x8 | ${pct(w,75)}%</div>
+<div class="ex">WOD: AMRAP 12 controlado</div>
+`
+}
+
+html+=`</div>`
+}
+
+html+=`</div>`
+}
+
+out.innerHTML=html
 }
 
 </script>
