@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite CrossFit AI System</title>
+<title>ELITE TRAINING SYSTEM PRO</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:20px;
 }
 
 .container{
-max-width:1500px;
+max-width:1600px;
 margin:auto;
 }
 
@@ -30,11 +30,36 @@ margin-bottom:20px;
 color:#60a5fa;
 }
 
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.tab-btn{
+padding:14px 22px;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.tab-btn.active{
+background:#2563eb;
+}
+
 .panel{
+display:none;
 background:#0f172a;
 padding:20px;
-border-radius:15px;
-margin-bottom:20px;
+border-radius:16px;
+}
+
+.panel.active{
+display:block;
 }
 
 .grid{
@@ -52,7 +77,7 @@ border-radius:12px;
 
 input,select{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:8px;
 border:none;
 border-radius:10px;
@@ -68,8 +93,8 @@ border-radius:12px;
 color:white;
 font-weight:bold;
 cursor:pointer;
-margin-right:10px;
 margin-top:10px;
+margin-right:10px;
 }
 
 button:hover{
@@ -90,22 +115,8 @@ border-radius:12px;
 margin-top:12px;
 }
 
-h2{
-color:#93c5fd;
-margin-bottom:10px;
-}
-
-h3{
-margin-bottom:10px;
-color:#f8fafc;
-}
-
-.exercise{
-margin-bottom:8px;
-}
-
 .progress{
-height:25px;
+height:22px;
 background:#1e293b;
 border-radius:12px;
 overflow:hidden;
@@ -120,28 +131,36 @@ transition:1s;
 }
 
 .small{
-font-size:14px;
 opacity:0.8;
+font-size:14px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>🏋️ ELITE CROSSFIT AI TRAINING</h1>
+<h1>🏋️ ELITE TRAINING SYSTEM PRO</h1>
 
-<div class="panel">
+<div class="tabs">
+<button class="tab-btn active" onclick="openTab(event,'crossfit')">CrossFit</button>
+<button class="tab-btn" onclick="openTab(event,'bodybuilding')">Musculación</button>
+</div>
+
+<!-- ================= CROSSFIT ================= -->
+
+<div id="crossfit" class="panel active">
+
+<h2>🏋️ CrossFit Programming</h2>
 
 <div class="grid">
 
 <div class="card">
 <h3>Objetivo</h3>
 
-<select id="goal">
+<select id="cfGoal">
 <option>Fuerza</option>
 <option>Aeróbico</option>
 <option>Competencia</option>
@@ -152,7 +171,7 @@ opacity:0.8;
 <div class="card">
 <h3>Nivel</h3>
 
-<select id="level">
+<select id="cfLevel">
 <option>Principiante</option>
 <option>Intermedio</option>
 <option>Avanzado</option>
@@ -162,7 +181,7 @@ opacity:0.8;
 <div class="card">
 <h3>Días/Semana</h3>
 
-<select id="days">
+<select id="cfDays">
 <option>2</option>
 <option>3</option>
 <option>4</option>
@@ -173,39 +192,108 @@ opacity:0.8;
 
 <div class="card">
 <h3>Back Squat RM</h3>
-<input type="number" id="squat">
+<input type="number" id="cfSquat">
 </div>
 
 <div class="card">
 <h3>Deadlift RM</h3>
-<input type="number" id="deadlift">
+<input type="number" id="cfDeadlift">
 </div>
 
 <div class="card">
 <h3>Bench RM</h3>
-<input type="number" id="bench">
+<input type="number" id="cfBench">
 </div>
 
 <div class="card">
 <h3>Clean RM</h3>
-<input type="number" id="clean">
+<input type="number" id="cfClean">
 </div>
 
 <div class="card">
 <h3>Snatch RM</h3>
-<input type="number" id="snatch">
+<input type="number" id="cfSnatch">
 </div>
 
 </div>
 
-<button onclick="generateProgram()">GENERAR PLAN</button>
-<button onclick="nextWeek()">ACTUALIZAR SEMANA</button>
+<button onclick="generateCrossfit()">GENERAR PLAN</button>
+<button onclick="nextCFWeek()">ACTUALIZAR SEMANA</button>
 
 <div class="progress">
-<div class="bar" id="bar"></div>
+<div class="bar" id="cfBar"></div>
 </div>
 
-<div id="output"></div>
+<div id="crossfitOutput"></div>
+
+</div>
+
+<!-- ================= MUSCULACION ================= -->
+
+<div id="bodybuilding" class="panel">
+
+<h2>💪 Musculación Inteligente</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Objetivo</h3>
+
+<select id="bbGoal">
+<option>Hipertrofia</option>
+<option>Fuerza</option>
+<option>Powerbuilding</option>
+<option>Resistencia</option>
+</select>
+</div>
+
+<div class="card">
+<h3>Nivel</h3>
+
+<select id="bbLevel">
+<option>Principiante</option>
+<option>Intermedio</option>
+<option>Avanzado</option>
+</select>
+</div>
+
+<div class="card">
+<h3>Días/Semana</h3>
+
+<select id="bbDays">
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+</div>
+
+<div class="card">
+<h3>Bench RM</h3>
+<input type="number" id="bbBench">
+</div>
+
+<div class="card">
+<h3>Squat RM</h3>
+<input type="number" id="bbSquat">
+</div>
+
+<div class="card">
+<h3>Deadlift RM</h3>
+<input type="number" id="bbDeadlift">
+</div>
+
+</div>
+
+<button onclick="generateBodybuilding()">GENERAR RUTINA</button>
+<button onclick="nextBBWeek()">ACTUALIZAR SEMANA</button>
+
+<div class="progress">
+<div class="bar" id="bbBar"></div>
+</div>
+
+<div id="bodybuildingOutput"></div>
 
 </div>
 
@@ -213,344 +301,203 @@ opacity:0.8;
 
 <script>
 
-let currentWeek=1;
+let cfWeek=1;
+let bbWeek=1;
 
-const strengthFocus=[
+function openTab(event,id){
+
+document.querySelectorAll('.panel').forEach(p=>{
+p.classList.remove('active');
+});
+
+document.querySelectorAll('.tab-btn').forEach(b=>{
+b.classList.remove('active');
+});
+
+document.getElementById(id).classList.add('active');
+
+event.target.classList.add('active');
+
+}
+
+/* ================= CROSSFIT ================= */
+
+const cfStrength=[
 "Back Squat",
 "Front Squat",
 "Deadlift",
-"Bench Press",
 "Strict Press",
+"Push Press",
+"Bench Press",
 "Clean",
 "Snatch"
 ];
 
-const gymnasticsBeginner=[
-"Ring Rows",
-"Kipping Swings",
-"Hollow Holds",
-"Wall Walks"
-];
-
-const gymnasticsIntermediate=[
+const cfSkills=[
 "Toes To Bar",
 "Chest To Bar",
-"Handstand Pushups",
-"Bar Muscle Up Progressions"
-];
-
-const gymnasticsAdvanced=[
-"Ring Muscle Ups",
+"Ring Muscle Up",
 "Handstand Walk",
-"Butterfly Pullups",
-"Deficit HSPU"
+"Double Unders",
+"Handstand Pushups",
+"Bar Muscle Up"
 ];
 
-const wodsStrength=[
+const cfWods=[
+
+`
+AMRAP 15:
+10 Pullups
+15 Wall Balls
+200m Run
+`,
+
 `
 FOR TIME:
 21-15-9
-Deadlifts
+Thrusters
 Burpees
 `,
+
 `
-AMRAP 12:
-10 Box Jumps
-10 Pullups
-200m Run
+EMOM 16:
+1: 15 Cal Bike
+2: 12 Deadlifts
+3: 10 Pullups
+4: Rest
 `,
-`
-EMOM 14:
-1: 12 Cal Bike
-2: 10 Thrusters
-`,
+
 `
 5 ROUNDS:
 400m Run
+15 Box Jumps
 15 KB Swings
-`
-];
+`,
 
-const wodsAerobic=[
-`
-30 MIN ZONE 2 BIKE
-`,
-`
-AMRAP 25:
-500m Row
-20 Wall Balls
-`,
-`
-5K RUN
-`,
-`
-40 MIN EMOM:
-Bike + Row
-`
-];
-
-const wodsCompetition=[
 `
 CHIPPER:
 50 DU
-40 Wall Balls
-30 Toes To Bar
-20 Cleans
-10 RMU
-`,
+40 Situps
+30 Cleans
+20 Burpees
+10 HSPU
 `
-FOR TIME:
-30 Snatches
-30 Pullups
-30 Burpees
-`,
-`
-AMRAP 20:
-5 BMU
-10 Thrusters
-15 Cal Row
-`,
-`
-EMOM 24:
-Gymnastics + Oly
-`
+
 ];
 
-const mobility=[
-"Hamstrings",
-"Thoracic",
-"Ankles",
-"Hips",
-"Shoulders"
-];
-
-function getGymnastics(level){
-
-if(level==="Principiante"){
-return gymnasticsBeginner;
-}
-
-if(level==="Intermedio"){
-return gymnasticsIntermediate;
-}
-
-return gymnasticsAdvanced;
-
-}
-
-function getPercentages(week){
-
-if(week<=4){
-return [65,70,72,75];
-}
-
-if(week<=8){
-return [75,80,82,85];
-}
-
-if(week<=11){
-return [85,87,90,92];
-}
-
-return [60,60,60,60];
-
-}
-
-function randomItem(arr){
+function random(arr){
 return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function calcWeight(rm,percent){
+function cfPercentages(week){
 
-return Math.round((rm*percent)/100);
+if(week<=4) return [65,70,72,75];
 
-}
+if(week<=8) return [75,80,82,85];
 
-function generateStrength(goal,week,squat,deadlift,bench,clean,snatch){
+if(week<=11) return [85,88,90,92];
 
-const percentages=getPercentages(week);
-
-const focus=randomItem(strengthFocus);
-
-let percent=randomItem(percentages);
-
-let exerciseHTML="";
-
-switch(focus){
-
-case "Back Squat":
-exerciseHTML=`
-<div class="exercise">
-Back Squat 5x5 @ ${percent}% (${calcWeight(squat,percent)}kg)
-</div>
-`;
-break;
-
-case "Front Squat":
-exerciseHTML=`
-<div class="exercise">
-Front Squat 5x3 @ ${percent}% (${calcWeight(squat*0.85,percent)}kg)
-</div>
-`;
-break;
-
-case "Deadlift":
-exerciseHTML=`
-<div class="exercise">
-Deadlift 5x5 @ ${percent}% (${calcWeight(deadlift,percent)}kg)
-</div>
-`;
-break;
-
-case "Bench Press":
-exerciseHTML=`
-<div class="exercise">
-Bench Press 5x5 @ ${percent}% (${calcWeight(bench,percent)}kg)
-</div>
-`;
-break;
-
-case "Strict Press":
-exerciseHTML=`
-<div class="exercise">
-Strict Press 5x5 @ ${percent}% (${calcWeight(bench*0.65,percent)}kg)
-</div>
-`;
-break;
-
-case "Clean":
-exerciseHTML=`
-<div class="exercise">
-Clean & Jerk 6x2 @ ${percent}% (${calcWeight(clean,percent)}kg)
-</div>
-`;
-break;
-
-case "Snatch":
-exerciseHTML=`
-<div class="exercise">
-Snatch 6x2 @ ${percent}% (${calcWeight(snatch,percent)}kg)
-</div>
-`;
-break;
+return [60];
 
 }
 
-return exerciseHTML;
-
+function calc(rm,p){
+return Math.round((rm*p)/100);
 }
 
-function generateWarmup(day){
+function generateCrossfit(){
 
-const warmups=[
-"500m Row + Mobility",
-"Bike + Dynamic Stretch",
-"Jump Rope + Air Squats",
-"Mobility Flow + Assault Bike",
-"Shoulder Prep + PVC Drills"
-];
+let days=parseInt(document.getElementById("cfDays").value);
 
-return `
-<div class="block">
-<h3>🔥 Warmup</h3>
-${randomItem(warmups)}
-</div>
-`;
+let squat=parseInt(document.getElementById("cfSquat").value||100);
+let deadlift=parseInt(document.getElementById("cfDeadlift").value||120);
+let bench=parseInt(document.getElementById("cfBench").value||80);
+let clean=parseInt(document.getElementById("cfClean").value||90);
+let snatch=parseInt(document.getElementById("cfSnatch").value||70);
 
+let html=`<h2>📅 Semana ${cfWeek}</h2>`;
+
+for(let d=1;d<=days;d++){
+
+let exercise=random(cfStrength);
+
+let p=random(cfPercentages(cfWeek));
+
+let weight="";
+
+if(exercise.includes("Squat")){
+weight=calc(squat,p);
 }
 
-function generateGymnastics(level){
-
-let skill=randomItem(getGymnastics(level));
-
-return `
-<div class="block">
-<h3>🤸 Gymnastics Skill</h3>
-
-${skill}
-
-<br><br>
-
-4 Sets:
-<br>
-Practice + Drills + Technique
-</div>
-`;
-
+if(exercise==="Deadlift"){
+weight=calc(deadlift,p);
 }
 
-function generateWOD(goal){
-
-let wod="";
-
-if(goal==="Fuerza"){
-wod=randomItem(wodsStrength);
+if(exercise.includes("Bench")||exercise.includes("Press")){
+weight=calc(bench,p);
 }
 
-if(goal==="Aeróbico"){
-wod=randomItem(wodsAerobic);
+if(exercise==="Clean"){
+weight=calc(clean,p);
 }
 
-if(goal==="Competencia"){
-wod=randomItem(wodsCompetition);
+if(exercise==="Snatch"){
+weight=calc(snatch,p);
 }
 
-if(goal==="Híbrido"){
-let all=[
-...wodsStrength,
-...wodsAerobic,
-...wodsCompetition
-];
-
-wod=randomItem(all);
-}
-
-return `
-<div class="block">
-<h3>🔥 WOD</h3>
-${wod}
-</div>
-`;
-
-}
-
-function generateCooldown(){
-
-return `
-<div class="block">
-<h3>🧘 Mobility / Cooldown</h3>
-
-${randomItem(mobility)}
-<br>
-5-10 Min Recovery Flow
-
-</div>
-`;
-
-}
-
-function generateDay(day,goal,level,week,squat,deadlift,bench,clean,snatch){
-
-return `
+html+=`
 
 <div class="day">
 
-<h2>📅 Día ${day}</h2>
-
-${generateWarmup(day)}
+<h2>🏋️ Día ${d}</h2>
 
 <div class="block">
+
+<h3>🔥 Warmup</h3>
+
+500m Row + Mobility + Dynamic Stretch
+
+</div>
+
+<div class="block">
+
 <h3>💪 Strength</h3>
 
-${generateStrength(goal,week,squat,deadlift,bench,clean,snatch)}
+${exercise}
+
+<br><br>
+
+5 Sets x 5 Reps @ ${p}% (${weight}kg)
 
 </div>
 
-${generateGymnastics(level)}
+<div class="block">
 
-${generateWOD(goal)}
+<h3>🤸 Gymnastics Skill</h3>
 
-${generateCooldown()}
+${random(cfSkills)}
+
+<br><br>
+
+4 Sets Technique Work
+
+</div>
+
+<div class="block">
+
+<h3>🔥 WOD</h3>
+
+${random(cfWods)}
+
+</div>
+
+<div class="block">
+
+<h3>🧘 Cooldown</h3>
+
+5-10 Min Mobility Flow
+
+</div>
 
 </div>
 
@@ -558,107 +505,254 @@ ${generateCooldown()}
 
 }
 
-function generateProgram(){
+document.getElementById("crossfitOutput").innerHTML=html;
 
-let goal=document.getElementById("goal").value;
-
-let level=document.getElementById("level").value;
-
-let days=parseInt(document.getElementById("days").value);
-
-let squat=parseInt(document.getElementById("squat").value||100);
-
-let deadlift=parseInt(document.getElementById("deadlift").value||120);
-
-let bench=parseInt(document.getElementById("bench").value||80);
-
-let clean=parseInt(document.getElementById("clean").value||90);
-
-let snatch=parseInt(document.getElementById("snatch").value||70);
-
-let html=`
-<h2>🏆 Semana ${currentWeek}</h2>
-
-<p class="small">
-Sistema basado en:
-- Periodización por bloques
-- Fuerza + Skill + Metcon
-- Progresión 12 semanas
-- Deload semana 12
-</p>
-`;
-
-for(let i=1;i<=days;i++){
-
-html+=generateDay(
-i,
-goal,
-level,
-currentWeek,
-squat,
-deadlift,
-bench,
-clean,
-snatch
-);
+document.getElementById("cfBar").style.width=((cfWeek/12)*100)+"%";
 
 }
 
-document.getElementById("output").innerHTML=html;
+/* ================= BODYBUILDING ================= */
 
-updateProgress();
+const hypertrophyExercises={
 
-saveData();
+push:[
+"Bench Press 4x10",
+"Incline DB Press 4x12",
+"Shoulder Press 4x10",
+"Lateral Raises 4x15",
+"Tricep Pushdowns 4x15"
+],
 
-}
+pull:[
+"Barbell Row 4x10",
+"Lat Pulldown 4x12",
+"Seated Cable Row 4x12",
+"Barbell Curl 4x12",
+"Hammer Curl 4x15"
+],
 
-function updateProgress(){
-
-let value=(currentWeek/12)*100;
-
-document.getElementById("bar").style.width=value+"%";
-
-}
-
-function nextWeek(){
-
-if(currentWeek<12){
-
-currentWeek++;
-
-generateProgram();
-
-}
-
-}
-
-function saveData(){
-
-let data={
-
-week:currentWeek,
-
-goal:document.getElementById("goal").value,
-
-level:document.getElementById("level").value
+legs:[
+"Back Squat 4x10",
+"Romanian Deadlift 4x10",
+"Leg Press 4x15",
+"Leg Curl 4x15",
+"Calf Raises 5x20"
+]
 
 };
 
-localStorage.setItem("crossfitAI",JSON.stringify(data));
+const strengthExercises={
+
+upper:[
+"Bench Press 5x5",
+"Overhead Press 5x5",
+"Weighted Pullups 5x5",
+"Barbell Rows 5x5"
+],
+
+lower:[
+"Back Squat 5x5",
+"Deadlift 5x3",
+"Front Squat 4x5",
+"Walking Lunges 4x10"
+]
+
+};
+
+function generateBodybuilding(){
+
+let goal=document.getElementById("bbGoal").value;
+
+let days=parseInt(document.getElementById("bbDays").value);
+
+let html=`<h2>💪 Semana ${bbWeek}</h2>`;
+
+if(goal==="Hipertrofia"){
+
+let split=[];
+
+if(days===2){
+split=["push","legs"];
+}
+
+if(days===3){
+split=["push","pull","legs"];
+}
+
+if(days===4){
+split=["push","pull","legs","upper"];
+}
+
+if(days>=5){
+split=["push","pull","legs","push","pull"];
+}
+
+split.forEach((part,index)=>{
+
+html+=`
+<div class="day">
+
+<h2>📌 Día ${index+1}</h2>
+
+<div class="block">
+
+<h3>${part.toUpperCase()}</h3>
+
+`;
+
+if(hypertrophyExercises[part]){
+
+hypertrophyExercises[part].forEach(ex=>{
+
+html+=`${ex}<br>`;
+
+});
+
+}else{
+
+html+=`
+Bench Press 4x10<br>
+Rows 4x12<br>
+Squat 4x10
+`;
 
 }
 
-window.onload=function(){
+html+=`
+</div>
+</div>
+`;
 
-let saved=localStorage.getItem("crossfitAI");
+});
 
-if(saved){
+}
 
-let data=JSON.parse(saved);
+if(goal==="Fuerza"){
 
-currentWeek=data.week||1;
+let split=[];
 
-updateProgress();
+if(days===2){
+split=["upper","lower"];
+}
+
+if(days===3){
+split=["upper","lower","upper"];
+}
+
+if(days>=4){
+split=["upper","lower","upper","lower"];
+}
+
+split.forEach((part,index)=>{
+
+html+=`
+
+<div class="day">
+
+<h2>🏋️ Día ${index+1}</h2>
+
+<div class="block">
+
+<h3>${part.toUpperCase()}</h3>
+
+`;
+
+strengthExercises[part].forEach(ex=>{
+
+html+=`${ex}<br>`;
+
+});
+
+html+=`
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+if(goal==="Powerbuilding"){
+
+html+=`
+
+<div class="day">
+
+<h2>💥 Powerbuilding</h2>
+
+<div class="block">
+
+Bench Press 5x5<br>
+Back Squat 5x5<br>
+Deadlift 5x5<br>
+Incline DB Press 4x12<br>
+Rows 4x12<br>
+Leg Press 4x15<br>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+if(goal==="Resistencia"){
+
+html+=`
+
+<div class="day">
+
+<h2>🔥 Muscular Endurance</h2>
+
+<div class="block">
+
+Circuit x5:
+
+<br><br>
+
+20 Pushups<br>
+20 Air Squats<br>
+20 Situps<br>
+20 KB Swings<br>
+400m Run<br>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("bodybuildingOutput").innerHTML=html;
+
+document.getElementById("bbBar").style.width=((bbWeek/12)*100)+"%";
+
+}
+
+function nextCFWeek(){
+
+if(cfWeek<12){
+
+cfWeek++;
+
+generateCrossfit();
+
+}
+
+}
+
+function nextBBWeek(){
+
+if(bbWeek<12){
+
+bbWeek++;
+
+generateBodybuilding();
 
 }
 
