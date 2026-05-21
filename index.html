@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CrossFit Pro Periodization</title>
+<title>CrossFit Box Programming PRO</title>
 
 <style>
 body{margin:0;background:#0b1020;color:white;font-family:Arial;padding:20px}
@@ -15,8 +15,8 @@ input,select{width:100%;padding:10px;border-radius:8px;border:0;background:#1118
 button{padding:12px;background:#2563eb;border:0;color:white;font-weight:bold;border-radius:10px;cursor:pointer;margin-top:10px}
 .day{margin-top:20px;background:#111827;padding:15px;border-radius:10px}
 .block{background:#1f2937;padding:10px;margin-top:10px;border-radius:10px}
-.ex{padding:6px;background:#374151;margin:5px 0;border-radius:6px}
 .small{opacity:.8;font-size:13px}
+.ex{padding:6px;background:#374151;margin:5px 0;border-radius:6px}
 </style>
 </head>
 
@@ -24,7 +24,7 @@ button{padding:12px;background:#2563eb;border:0;color:white;font-weight:bold;bor
 
 <div class="container">
 
-<h1>🏋️ CrossFit Pro Periodization (12 semanas)</h1>
+<h1>🏋️ CrossFit Box Programming PRO (12 semanas)</h1>
 
 <div class="grid">
 
@@ -39,21 +39,21 @@ Días por semana
 
 <div class="card">
 Back Squat RM
-<input id="sq" type="number">
+<input id="sq">
 </div>
 
 <div class="card">
 Deadlift RM
-<input id="dl" type="number">
+<input id="dl">
 </div>
 
 <div class="card">
 Press RM
-<input id="bp" type="number">
+<input id="bp">
 </div>
 
 <div class="card">
-Nivel atleta
+Nivel
 <select id="lvl">
 <option>Intermedio</option>
 <option>Avanzado</option>
@@ -62,7 +62,7 @@ Nivel atleta
 
 </div>
 
-<button onclick="generate()">Generar Programación PRO</button>
+<button onclick="gen()">Generar Programación BOX PRO</button>
 
 <div id="out"></div>
 
@@ -70,100 +70,106 @@ Nivel atleta
 
 <script>
 
-function pct(week,base){
-
-// periodización real 3 bloques + deload
-
-if(week<=3) return base-10
-if(week<=6) return base
-if(week<=9) return base+5
-return base-15
-}
-
 function w(rm,p){return Math.round(rm*p/100)}
-
-function ex(name,sets,reps,p,rm){
-return `<div class="ex">${name} ${sets}x${reps} | ${p}% | ${w(rm,p)}kg</div>`
-}
 
 /* ================= WODS POR SISTEMA ================= */
 
-const wods=[
-"AMRAP 12: 10 Burpees + 12 Wall Balls + 200m Run",
-"FOR TIME: 21-15-9 Thrusters + Pullups",
-"EMOM 16: 12 Cal Row + 10 Deadlift ligero + 8 Burpees",
-"INTERVALOS: 5x400m Run descanso corto"
+const wodShort=[
+"FOR TIME: 15-12-9 Thrusters + Burpees",
+"EMOM 10: 10 Cal Row + 8 Deadlift",
+"AMRAP 8: Burpees + Box Jump",
+]
+
+const wodEngine=[
+"Row 5k steady pace",
+"Bike 20 min zone 2",
+"Run 6x800m pace control",
+]
+
+const wodLong=[
+"AMRAP 20: Run + Wall Ball + KB Swing",
+"FOR TIME: 800m run + circuit 4 rounds",
+"Chipper: 50-40-30-20-10 reps mixed",
 ]
 
 const skills=[
-"Handstand Walk técnica",
-"Muscle Up progresiones",
-"Double Unders eficiencia",
-"Toes to Bar control"
+"Handstand Walk",
+"Muscle Up Progression",
+"Snatch technique",
+"Clean & Jerk technique"
 ]
 
 function random(a){
 return a[Math.floor(Math.random()*a.length)]
 }
 
-/* ================= PLANIFICACION PRO ================= */
+/* ================= PERIODIZACION REAL ================= */
 
-function generate(){
+function intensity(week){
+if(week<=3) return 70
+if(week<=6) return 75
+if(week<=9) return 82
+return 65 // deload
+}
+
+/* ================= DISEÑO BOX REAL ================= */
+
+function gen(){
 
 let days=parseInt(document.getElementById("days").value)
 let sq=parseInt(document.getElementById("sq").value||140)
 let dl=parseInt(document.getElementById("dl").value||180)
 let bp=parseInt(document.getElementById("bp").value||100)
 
-let html="<h2>📊 Planificación 12 semanas CrossFit PRO</h2>"
+let html="<h2>📊 12 Semanas CrossFit Box PRO</h2>"
 
 for(let w=1; w<=12; w++){
 
 html+=`<div class="day">
 <h3>Semana ${w}</h3>`
 
-// tipos de sesión estructurados
-
 for(let d=1; d<=days; d++){
 
-let type = (d + w) % 3
+let type=(d+w)%3
+let p=intensity(w)
 
 html+=`<div class="block">
 <h4>Día ${d}</h4>`
 
-/* ================= ESTRUCTURA REAL ================= */
+/* ================= ESTILO BOX REAL ================= */
 
 if(type===0){
 
-// FUERZA + WOD corto intenso
 html+=`
-<div class="small">FOCUS: Fuerza + Potencia</div>
-${ex("Back Squat",5,5,pct(w,80),sq)}
-${ex("Deadlift",5,3,pct(w,85),dl)}
+<div class="small">FOCUS: FUERZA + METCON CORTO</div>
 
-<div class="ex">WOD: Sprint 8-10 min (alta intensidad)</div>
+<div class="ex">Back Squat 5x5 @ ${p}% (${w(sq,p)}kg)</div>
+<div class="ex">Deadlift 5x3 @ ${p+3}% (${w(dl,p+3)}kg)</div>
+
+<div class="ex">${random(wodShort)}</div>
 `
 }
 
 if(type===1){
 
-// ENGINE DAY
 html+=`
-<div class="small">FOCUS: Aeróbico / Engine</div>
-<div class="ex">Row 3-5km ritmo constante</div>
-<div class="ex">Bike intervals 6x2 min</div>
-<div class="ex">Core + movilidad activa</div>
+<div class="small">FOCUS: ENGINE / AERÓBICO</div>
+
+<div class="ex">${random(wodEngine)}</div>
+<div class="ex">Core + movilidad 15 min</div>
 `
 }
 
 if(type===2){
 
-// SKILL + MODERADO
 html+=`
-<div class="small">FOCUS: Skill + Metcon medio</div>
+<div class="small">FOCUS: SKILL + METCON</div>
+
 <div class="ex">Skill: ${random(skills)}</div>
-<div class="ex">Bench Press 4x8 | ${pct(w,75)}%</div>
-<div class="ex">WOD: AMRAP 12 controlado</div>
+
+<div class="ex">Bench Press 4x8 @ ${p-5}% (${w(bp,p-5)}kg)</div>
+
+<div class="ex">${random(wodLong)}</div>
 `
 }
 
@@ -173,7 +179,7 @@ html+=`</div>`
 html+=`</div>`
 }
 
-out.innerHTML=html
+document.getElementById("out").innerHTML=html
 }
 
 </script>
