@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELITE TRAINING SYSTEM AI</title>
+<title>ELITE TRAINING SYSTEM AI PRO</title>
 
 <style>
 
@@ -113,11 +113,11 @@ background:#1e293b;
 padding:15px;
 border-radius:12px;
 margin-top:12px;
-line-height:1.7;
+line-height:1.8;
 }
 
 .progress{
-height:22px;
+height:24px;
 background:#1e293b;
 border-radius:12px;
 overflow:hidden;
@@ -131,6 +131,11 @@ background:#22c55e;
 transition:1s;
 }
 
+.small{
+opacity:0.8;
+font-size:14px;
+}
+
 </style>
 </head>
 
@@ -138,7 +143,7 @@ transition:1s;
 
 <div class="container">
 
-<h1>🏋️ ELITE TRAINING SYSTEM AI</h1>
+<h1>🏋️ ELITE TRAINING SYSTEM AI PRO</h1>
 
 <div class="tabs">
 
@@ -164,10 +169,12 @@ Musculación
 <h3>Objetivo</h3>
 
 <select id="cfGoal">
+
 <option>Fuerza</option>
 <option>Aeróbico</option>
 <option>Competencia</option>
 <option>Híbrido</option>
+
 </select>
 </div>
 
@@ -175,22 +182,38 @@ Musculación
 <h3>Días/Semana</h3>
 
 <select id="cfDays">
+
 <option>2</option>
 <option>3</option>
 <option>4</option>
 <option>5</option>
-<option>6</option>
+
 </select>
 </div>
 
 <div class="card">
-<h3>Nivel</h3>
+<h3>Back Squat RM</h3>
+<input type="number" id="cfSquat">
+</div>
 
-<select id="cfLevel">
-<option>Principiante</option>
-<option>Intermedio</option>
-<option>Avanzado</option>
-</select>
+<div class="card">
+<h3>Deadlift RM</h3>
+<input type="number" id="cfDeadlift">
+</div>
+
+<div class="card">
+<h3>Bench RM</h3>
+<input type="number" id="cfBench">
+</div>
+
+<div class="card">
+<h3>Clean RM</h3>
+<input type="number" id="cfClean">
+</div>
+
+<div class="card">
+<h3>Snatch RM</h3>
+<input type="number" id="cfSnatch">
 </div>
 
 </div>
@@ -255,15 +278,22 @@ GENERAR CROSSFIT
 
 <div class="card">
 
-<h3>Nivel</h3>
+<h3>Bench RM</h3>
+<input type="number" id="bbBench">
 
-<select id="bbLevel">
+</div>
 
-<option>Principiante</option>
-<option>Intermedio</option>
-<option>Avanzado</option>
+<div class="card">
 
-</select>
+<h3>Squat RM</h3>
+<input type="number" id="bbSquat">
+
+</div>
+
+<div class="card">
+
+<h3>Deadlift RM</h3>
+<input type="number" id="bbDeadlift">
 
 </div>
 
@@ -273,6 +303,10 @@ GENERAR CROSSFIT
 GENERAR MUSCULACIÓN
 </button>
 
+<div class="progress">
+<div class="bar" id="bbBar"></div>
+</div>
+
 <div id="bodybuildingOutput"></div>
 
 </div>
@@ -280,6 +314,8 @@ GENERAR MUSCULACIÓN
 </div>
 
 <script>
+
+let bbWeek=1;
 
 /* ================= TABS ================= */
 
@@ -299,181 +335,7 @@ event.target.classList.add('active');
 
 }
 
-/* ================= CROSSFIT ================= */
-
-const cfStrength=[
-"Back Squat",
-"Front Squat",
-"Deadlift",
-"Strict Press",
-"Push Press",
-"Snatch",
-"Clean & Jerk"
-];
-
-const cfSkills=[
-"Toes To Bar",
-"Chest To Bar",
-"Handstand Walk",
-"Muscle Up",
-"Double Unders",
-"Handstand Pushups"
-];
-
-const cfWods=[
-
-`
-AMRAP 15:
-10 Pullups
-15 Wall Balls
-200m Run
-`,
-
-`
-FOR TIME:
-21-15-9
-Thrusters
-Burpees
-`,
-
-`
-EMOM 18:
-12 Cal Bike
-10 Deadlifts
-8 Pullups
-`,
-
-`
-5 ROUNDS:
-400m Run
-15 KB Swings
-15 Box Jumps
-`
-
-];
-
-function random(arr){
-return arr[Math.floor(Math.random()*arr.length)];
-}
-
-function generateCrossfit(){
-
-let days=parseInt(document.getElementById("cfDays").value);
-
-let html="<h2>🔥 Programación Semanal</h2>";
-
-for(let i=1;i<=days;i++){
-
-html+=`
-
-<div class="day">
-
-<h2>📅 Día ${i}</h2>
-
-<div class="block">
-
-<h3>🔥 Warmup</h3>
-
-500m Row + Dynamic Mobility + Activation
-
-</div>
-
-<div class="block">
-
-<h3>💪 Strength</h3>
-
-${random(cfStrength)}
-
-<br><br>
-
-5x5 Progresivo
-
-</div>
-
-<div class="block">
-
-<h3>🤸 Skill</h3>
-
-${random(cfSkills)}
-
-<br><br>
-
-4 Sets Técnica
-
-</div>
-
-<div class="block">
-
-<h3>🔥 WOD</h3>
-
-${random(cfWods)}
-
-</div>
-
-<div class="block">
-
-<h3>🧘 Cooldown</h3>
-
-5-10 Min Mobility
-
-</div>
-
-</div>
-
-`;
-
-}
-
-document.getElementById("crossfitOutput").innerHTML=html;
-
-}
-
-/* ================= MUSCULACION ================= */
-
-const upperHypertrophy=[
-
-"Bench Press 4x10",
-"Incline DB Press 4x12",
-"Machine Chest Press 4x15",
-"Lat Pulldown 4x12",
-"Barbell Row 4x10",
-"Seated Cable Row 4x12",
-"Lateral Raises 4x15",
-"Rear Delt Fly 4x15",
-"Barbell Curl 4x12",
-"Tricep Pushdown 4x15"
-
-];
-
-const legsHypertrophy=[
-
-"Back Squat 4x10",
-"Romanian Deadlift 4x10",
-"Leg Press 4x15",
-"Leg Curl 4x15",
-"Bulgarian Split Squat 4x12",
-"Calf Raises 5x20"
-
-];
-
-const upperStrength=[
-
-"Bench Press 5x5",
-"Weighted Pullups 5x5",
-"Overhead Press 5x5",
-"Barbell Row 5x5",
-"Weighted Dips 4x6"
-
-];
-
-const lowerStrength=[
-
-"Back Squat 5x5",
-"Deadlift 5x3",
-"Front Squat 4x5",
-"Walking Lunges 4x10"
-
-];
+/* ================= HELPERS ================= */
 
 function splitExercises(arr){
 
@@ -489,6 +351,56 @@ return result;
 
 }
 
+function calc(rm,percent){
+
+return Math.round((rm*percent)/100);
+
+}
+
+function getPercentages(week,goal){
+
+if(goal==="Hipertrofia"){
+
+if(week<=4) return [65,70,72];
+
+if(week<=8) return [72,75,77];
+
+if(week<=11) return [78,80,82];
+
+return [60];
+
+}
+
+if(goal==="Fuerza"){
+
+if(week<=4) return [75,80,82];
+
+if(week<=8) return [82,85,87];
+
+if(week<=11) return [88,90,92];
+
+return [60];
+
+}
+
+if(goal==="Powerbuilding"){
+
+if(week<=4) return [70,72,75];
+
+if(week<=8) return [75,78,80];
+
+if(week<=11) return [82,85,88];
+
+return [60];
+
+}
+
+return [70];
+
+}
+
+/* ================= MUSCULACION ================= */
+
 function generateBodybuilding(){
 
 let goal=document.getElementById("bbGoal").value;
@@ -497,7 +409,19 @@ let days=parseInt(document.getElementById("bbDays").value);
 
 let trainLegs=document.getElementById("trainLegs").value;
 
-let html=`<h2>💪 Rutina ${goal}</h2>`;
+let benchRM=parseInt(document.getElementById("bbBench").value||100);
+
+let squatRM=parseInt(document.getElementById("bbSquat").value||140);
+
+let deadliftRM=parseInt(document.getElementById("bbDeadlift").value||180);
+
+let percentages=getPercentages(bbWeek,goal);
+
+let html=`<h2>💪 Semana ${bbWeek}</h2>`;
+
+let p1=percentages[0];
+let p2=percentages[1];
+let p3=percentages[2];
 
 /* ================= HIPERTROFIA ================= */
 
@@ -511,19 +435,15 @@ html+=`
 
 <div class="day">
 
-<h2>📌 Día 1 - Upper Push</h2>
+<h2>📌 Upper Push</h2>
 
 <div class="block">
 
-${splitExercises([
-
-"Bench Press 4x10",
-"Incline DB Press 4x12",
-"Shoulder Press 4x10",
-"Lateral Raises 4x15",
-"Tricep Pushdown 4x15"
-
-])}
+Bench Press 4x10 @ ${p1}% (${calc(benchRM,p1)}kg)<br>
+Incline DB Press 4x12<br>
+Shoulder Press 4x10 @ ${p2}%<br>
+Lateral Raises 4x15<br>
+Tricep Pushdown 4x15<br>
 
 </div>
 
@@ -531,19 +451,15 @@ ${splitExercises([
 
 <div class="day">
 
-<h2>📌 Día 2 - Upper Pull</h2>
+<h2>📌 Upper Pull</h2>
 
 <div class="block">
 
-${splitExercises([
-
-"Barbell Row 4x10",
-"Lat Pulldown 4x12",
-"Seated Row 4x12",
-"Face Pull 4x15",
-"Barbell Curl 4x12"
-
-])}
+Barbell Row 4x10 @ ${p1}%<br>
+Lat Pulldown 4x12<br>
+Seated Row 4x12<br>
+Face Pull 4x15<br>
+Barbell Curl 4x12<br>
 
 </div>
 
@@ -557,11 +473,14 @@ html+=`
 
 <div class="day">
 
-<h2>📌 Día 1 - Upper</h2>
+<h2>📌 Upper</h2>
 
 <div class="block">
 
-${splitExercises(upperHypertrophy)}
+Bench Press 4x10 @ ${p1}% (${calc(benchRM,p1)}kg)<br>
+Rows 4x10<br>
+Shoulder Press 4x10<br>
+Pulldown 4x12<br>
 
 </div>
 
@@ -569,11 +488,14 @@ ${splitExercises(upperHypertrophy)}
 
 <div class="day">
 
-<h2>📌 Día 2 - Legs</h2>
+<h2>📌 Legs</h2>
 
 <div class="block">
 
-${splitExercises(legsHypertrophy)}
+Back Squat 4x10 @ ${p1}% (${calc(squatRM,p1)}kg)<br>
+Romanian Deadlift 4x10 @ ${p2}% (${calc(deadliftRM,p2)}kg)<br>
+Leg Press 4x15<br>
+Leg Curl 4x15<br>
 
 </div>
 
@@ -585,7 +507,7 @@ ${splitExercises(legsHypertrophy)}
 
 }
 
-/* ====== 3 DIAS ====== */
+/* ================= 3 DIAS ================= */
 
 if(days===3){
 
@@ -599,14 +521,10 @@ html+=`
 
 <div class="block">
 
-${splitExercises([
-
-"Bench Press 4x10",
-"Incline DB Press 4x12",
-"Shoulder Press 4x10",
-"Lateral Raises 4x15"
-
-])}
+Bench Press 4x10 @ ${p1}% (${calc(benchRM,p1)}kg)<br>
+Incline DB Press 4x12<br>
+Shoulder Press 4x10 @ ${p2}%<br>
+Lateral Raises 4x15<br>
 
 </div>
 
@@ -618,14 +536,10 @@ ${splitExercises([
 
 <div class="block">
 
-${splitExercises([
-
-"Barbell Row 4x10",
-"Lat Pulldown 4x12",
-"Cable Row 4x12",
-"Barbell Curl 4x12"
-
-])}
+Barbell Row 4x10 @ ${p1}%<br>
+Lat Pulldown 4x12<br>
+Cable Row 4x12<br>
+Barbell Curl 4x12<br>
 
 </div>
 
@@ -637,14 +551,10 @@ ${splitExercises([
 
 <div class="block">
 
-${splitExercises([
-
-"Weighted Dips 4x10",
-"Pullups 4xAMRAP",
-"Machine Press 4x15",
-"Rear Delt Fly 4x15"
-
-])}
+Weighted Dips 4x10<br>
+Pullups 4xAMRAP<br>
+Machine Press 4x15<br>
+Rear Delt Fly 4x15<br>
 
 </div>
 
@@ -662,13 +572,9 @@ html+=`
 
 <div class="block">
 
-${splitExercises([
-
-"Bench Press 4x10",
-"Shoulder Press 4x10",
-"Lateral Raises 4x15"
-
-])}
+Bench Press 4x10 @ ${p1}% (${calc(benchRM,p1)}kg)<br>
+Shoulder Press 4x10 @ ${p2}%<br>
+Lateral Raises 4x15<br>
 
 </div>
 
@@ -680,13 +586,9 @@ ${splitExercises([
 
 <div class="block">
 
-${splitExercises([
-
-"Barbell Row 4x10",
-"Lat Pulldown 4x12",
-"Barbell Curl 4x12"
-
-])}
+Barbell Row 4x10 @ ${p1}%<br>
+Lat Pulldown 4x12<br>
+Barbell Curl 4x12<br>
 
 </div>
 
@@ -698,7 +600,9 @@ ${splitExercises([
 
 <div class="block">
 
-${splitExercises(legsHypertrophy)}
+Back Squat 4x10 @ ${p1}% (${calc(squatRM,p1)}kg)<br>
+Deadlift 4x8 @ ${p2}% (${calc(deadliftRM,p2)}kg)<br>
+Leg Press 4x15<br>
 
 </div>
 
@@ -710,13 +614,13 @@ ${splitExercises(legsHypertrophy)}
 
 }
 
-/* ====== 4+ DIAS ====== */
+/* ================= 4+ DIAS ================= */
 
 if(days>=4){
 
 if(trainLegs==="no"){
 
-let upperDays=[
+let daysUpper=[
 
 "Push A",
 "Pull A",
@@ -725,7 +629,7 @@ let upperDays=[
 
 ];
 
-upperDays.forEach((d,index)=>{
+daysUpper.forEach((d,index)=>{
 
 html+=`
 
@@ -735,7 +639,11 @@ html+=`
 
 <div class="block">
 
-${splitExercises(upperHypertrophy)}
+Bench Press 4x10 @ ${p1}% (${calc(benchRM,p1)}kg)<br>
+Rows 4x10<br>
+Pulldown 4x12<br>
+Shoulder Press 4x10<br>
+Lateral Raises 4x15<br>
 
 </div>
 
@@ -759,9 +667,32 @@ html+=`
 
 <div class="block">
 
-${d==="Legs"
-?splitExercises(legsHypertrophy)
-:splitExercises(upperHypertrophy)}
+`;
+
+if(d==="Legs"){
+
+html+=`
+
+Back Squat 4x10 @ ${p1}% (${calc(squatRM,p1)}kg)<br>
+Deadlift 4x8 @ ${p2}% (${calc(deadliftRM,p2)}kg)<br>
+Leg Press 4x15<br>
+
+`;
+
+}else{
+
+html+=`
+
+Bench Press 4x10 @ ${p1}% (${calc(benchRM,p1)}kg)<br>
+Rows 4x10<br>
+Shoulder Press 4x10<br>
+Pulldown 4x12<br>
+
+`;
+
+}
+
+html+=`
 
 </div>
 
@@ -791,14 +722,10 @@ html+=`
 
 <div class="block">
 
-${splitExercises([
-
-"Bench Press 5x5",
-"Weighted Pullups 5x5",
-"Overhead Press 5x5",
-"Barbell Row 5x5"
-
-])}
+Bench Press 5x5 @ ${p2}% (${calc(benchRM,p2)}kg)<br>
+Weighted Pullups 5x5<br>
+Overhead Press 5x5 @ ${p2}%<br>
+Barbell Row 5x5<br>
 
 </div>
 
@@ -810,14 +737,10 @@ ${splitExercises([
 
 <div class="block">
 
-${splitExercises([
-
-"Incline Bench 5x5",
-"Weighted Dips 5x5",
-"Pendlay Row 5x5",
-"Chinups 5x5"
-
-])}
+Incline Bench 5x5 @ ${p3}% (${calc(benchRM,p3)}kg)<br>
+Weighted Dips 5x5<br>
+Pendlay Row 5x5<br>
+Chinups 5x5<br>
 
 </div>
 
@@ -835,7 +758,9 @@ html+=`
 
 <div class="block">
 
-${splitExercises(upperStrength)}
+Bench Press 5x5 @ ${p2}% (${calc(benchRM,p2)}kg)<br>
+Overhead Press 5x5 @ ${p2}%<br>
+Rows 5x5<br>
 
 </div>
 
@@ -847,7 +772,9 @@ ${splitExercises(upperStrength)}
 
 <div class="block">
 
-${splitExercises(lowerStrength)}
+Back Squat 5x5 @ ${p2}% (${calc(squatRM,p2)}kg)<br>
+Deadlift 5x3 @ ${p3}% (${calc(deadliftRM,p3)}kg)<br>
+Front Squat 4x5<br>
 
 </div>
 
@@ -867,11 +794,11 @@ html+=`
 
 <div class="day">
 
-<h2>💥 Powerbuilding Upper</h2>
+<h2>💥 Upper Powerbuilding</h2>
 
 <div class="block">
 
-Bench Press 5x5<br>
+Bench Press 5x5 @ ${p2}% (${calc(benchRM,p2)}kg)<br>
 Incline DB Press 4x12<br>
 Weighted Pullups 5x5<br>
 Rows 4x12<br>
@@ -888,12 +815,12 @@ html+=`
 
 <div class="day">
 
-<h2>💥 Powerbuilding Lower</h2>
+<h2>💥 Lower Powerbuilding</h2>
 
 <div class="block">
 
-Back Squat 5x5<br>
-Deadlift 5x3<br>
+Back Squat 5x5 @ ${p2}% (${calc(squatRM,p2)}kg)<br>
+Deadlift 5x3 @ ${p3}% (${calc(deadliftRM,p3)}kg)<br>
 Leg Press 4x15<br>
 Bulgarian Split Squat 4x12<br>
 
@@ -908,6 +835,8 @@ Bulgarian Split Squat 4x12<br>
 }
 
 document.getElementById("bodybuildingOutput").innerHTML=html;
+
+document.getElementById("bbBar").style.width=((bbWeek/12)*100)+"%";
 
 }
 
