@@ -21,7 +21,7 @@ padding:20px;
 }
 
 .container{
-max-width:1600px;
+max-width:1400px;
 margin:auto;
 }
 
@@ -30,42 +30,15 @@ margin-bottom:20px;
 color:#60a5fa;
 }
 
-.tabs{
-display:flex;
-gap:10px;
-margin-bottom:20px;
-flex-wrap:wrap;
-}
-
-.tab-btn{
-padding:14px 22px;
-border:none;
-border-radius:12px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-font-weight:bold;
-transition:0.3s;
-}
-
-.tab-btn.active{
-background:#2563eb;
-}
-
 .panel{
-display:none;
 background:#0f172a;
 padding:20px;
 border-radius:16px;
 }
 
-.panel.active{
-display:block;
-}
-
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:15px;
 margin-bottom:20px;
 }
@@ -79,7 +52,7 @@ border-radius:12px;
 input,select{
 width:100%;
 padding:12px;
-margin-top:8px;
+margin-top:10px;
 border:none;
 border-radius:10px;
 background:#334155;
@@ -87,15 +60,13 @@ color:white;
 }
 
 button{
-padding:14px 22px;
+padding:14px 24px;
 background:#2563eb;
 border:none;
 border-radius:12px;
 color:white;
 font-weight:bold;
 cursor:pointer;
-margin-top:10px;
-margin-right:10px;
 transition:0.3s;
 }
 
@@ -119,16 +90,6 @@ margin-top:12px;
 line-height:1.8;
 }
 
-h2{
-margin-bottom:15px;
-color:#93c5fd;
-}
-
-h3{
-margin-bottom:10px;
-color:#cbd5e1;
-}
-
 .tag{
 display:inline-block;
 padding:6px 12px;
@@ -138,9 +99,9 @@ font-size:12px;
 margin-bottom:10px;
 }
 
-.small{
-opacity:0.8;
-font-size:14px;
+h2{
+margin-bottom:15px;
+color:#93c5fd;
 }
 
 </style>
@@ -152,150 +113,67 @@ font-size:14px;
 
 <h1>🏋️ ELITE TRAINING SYSTEM AI PRO</h1>
 
-<div class="tabs">
+<div class="panel">
 
-<button class="tab-btn active" onclick="openTab(event,'crossfit')">
-CrossFit
-</button>
-
-<button class="tab-btn" onclick="openTab(event,'bodybuilding')">
-Musculación
-</button>
-
-</div>
-
-<!-- ================= CROSSFIT ================= -->
-
-<div id="crossfit" class="panel active">
-
-<h2>🏋️ CrossFit</h2>
+<h2>CrossFit Planner</h2>
 
 <div class="grid">
 
 <div class="card">
 <h3>Objetivo</h3>
 
-<select id="cfGoal">
-
+<select id="goal">
 <option>Fuerza</option>
 <option>Aeróbico</option>
 <option>Competencia</option>
 <option>Híbrido</option>
-
 </select>
+
 </div>
 
 <div class="card">
 <h3>Días/Semana</h3>
 
-<select id="cfDays">
-
+<select id="days">
 <option>3</option>
 <option>4</option>
 <option>5</option>
-
 </select>
+
 </div>
 
 <div class="card">
 <h3>Back Squat RM</h3>
-<input type="number" id="cfSquat" placeholder="140">
+<input type="number" id="squat" value="140">
 </div>
 
 <div class="card">
 <h3>Deadlift RM</h3>
-<input type="number" id="cfDeadlift" placeholder="180">
+<input type="number" id="deadlift" value="180">
 </div>
 
 <div class="card">
 <h3>Bench RM</h3>
-<input type="number" id="cfBench" placeholder="110">
+<input type="number" id="bench" value="110">
 </div>
 
 <div class="card">
 <h3>Clean RM</h3>
-<input type="number" id="cfClean" placeholder="120">
+<input type="number" id="clean" value="120">
 </div>
 
 <div class="card">
 <h3>Snatch RM</h3>
-<input type="number" id="cfSnatch" placeholder="90">
+<input type="number" id="snatch" value="90">
 </div>
 
 </div>
 
-<button onclick="generateCrossfit()">
-GENERAR CROSSFIT
+<button onclick="generateRoutine()">
+GENERAR RUTINA
 </button>
 
-<div id="crossfitOutput"></div>
-
-</div>
-
-<!-- ================= MUSCULACION ================= -->
-
-<div id="bodybuilding" class="panel">
-
-<h2>💪 Musculación</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<h3>Objetivo</h3>
-
-<select id="bbGoal">
-
-<option>Hipertrofia</option>
-<option>Fuerza</option>
-<option>Powerbuilding</option>
-
-</select>
-
-</div>
-
-<div class="card">
-
-<h3>Días/Semana</h3>
-
-<select id="bbDays">
-
-<option>3</option>
-<option>4</option>
-<option>5</option>
-
-</select>
-
-</div>
-
-<div class="card">
-
-<h3>Bench RM</h3>
-<input type="number" id="bbBench">
-
-</div>
-
-<div class="card">
-
-<h3>Squat RM</h3>
-<input type="number" id="bbSquat">
-
-</div>
-
-<div class="card">
-
-<h3>Deadlift RM</h3>
-<input type="number" id="bbDeadlift">
-
-</div>
-
-</div>
-
-<button onclick="generateBodybuilding()">
-GENERAR MUSCULACIÓN
-</button>
-
-<div id="bodybuildingOutput"></div>
+<div id="output"></div>
 
 </div>
 
@@ -303,33 +181,13 @@ GENERAR MUSCULACIÓN
 
 <script>
 
-/* ================= TABS ================= */
-
-function openTab(event,id){
-
-document.querySelectorAll('.panel').forEach(p=>{
-p.classList.remove('active');
-});
-
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-btn.classList.remove('active');
-});
-
-document.getElementById(id).classList.add('active');
-
-event.target.classList.add('active');
-
-}
-
-/* ================= HELPERS ================= */
-
 function calc(rm,percent){
 
 return Math.round((rm*percent)/100);
 
 }
 
-function createDay(title,type,content){
+function createDay(day,type,content){
 
 return `
 
@@ -337,7 +195,7 @@ return `
 
 <div class="tag">${type}</div>
 
-<h2>${title}</h2>
+<h2>${day}</h2>
 
 <div class="block">
 
@@ -351,29 +209,27 @@ ${content}
 
 }
 
-/* ================= CROSSFIT ================= */
+function generateRoutine(){
 
-function generateCrossfit(){
+let goal=document.getElementById("goal").value;
 
-let goal=document.getElementById("cfGoal").value;
+let days=parseInt(document.getElementById("days").value);
 
-let days=parseInt(document.getElementById("cfDays").value);
+let squat=parseInt(document.getElementById("squat").value);
 
-let squat=parseInt(document.getElementById("cfSquat").value||140);
+let deadlift=parseInt(document.getElementById("deadlift").value);
 
-let deadlift=parseInt(document.getElementById("cfDeadlift").value||180);
+let bench=parseInt(document.getElementById("bench").value);
 
-let bench=parseInt(document.getElementById("cfBench").value||110);
+let clean=parseInt(document.getElementById("clean").value);
 
-let clean=parseInt(document.getElementById("cfClean").value||120);
+let snatch=parseInt(document.getElementById("snatch").value);
 
-let snatch=parseInt(document.getElementById("cfSnatch").value||90);
-
-let html=`<h2>🔥 Planificación Semanal CrossFit</h2>`;
+let html=`<h2 style="margin-top:20px;">🔥 PLAN SEMANAL</h2>`;
 
 let routine=[];
 
-/* ================= OBJETIVO FUERZA ================= */
+/* ================= FUERZA ================= */
 
 if(goal==="Fuerza"){
 
@@ -381,7 +237,7 @@ routine=[
 
 {
 day:"LUNES",
-type:"Strength + WOD",
+type:"Strength",
 content:`
 
 <b>BACK SQUAT</b><br>
@@ -392,8 +248,8 @@ content:`
 
 <b>WOD</b><br>
 AMRAP 10:<br>
-10 Wall Balls<br>
 10 Pull Ups<br>
+15 Wall Balls<br>
 200m Run
 
 `
@@ -401,7 +257,7 @@ AMRAP 10:<br>
 
 {
 day:"MIÉRCOLES",
-type:"Olympic + Conditioning",
+type:"Olympic",
 content:`
 
 <b>CLEAN & JERK</b><br>
@@ -411,24 +267,24 @@ content:`
 4x4 @ 75%<br><br>
 
 <b>WOD</b><br>
-5 Rounds:<br>
-8 Power Cleans<br>
+4 Rounds:<br>
+10 Power Cleans<br>
 12 Box Jumps<br>
-12/10 Cal Bike
+12 Cal Bike
 
 `
 },
 
 {
 day:"VIERNES",
-type:"Deadlift + Gymnastics",
+type:"Power",
 content:`
 
 <b>DEADLIFT</b><br>
 5x3 @ 82% (${calc(deadlift,82)}kg)<br><br>
 
-<b>STRICT PULL UPS</b><br>
-5x5<br><br>
+<b>PUSH PRESS</b><br>
+4x6 @ 70%<br><br>
 
 <b>WOD</b><br>
 For Time:<br>
@@ -437,13 +293,42 @@ Thrusters<br>
 Burpees
 
 `
+},
+
+{
+day:"SÁBADO",
+type:"Conditioning",
+content:`
+
+<b>SNATCH</b><br>
+5x2 @ 70% (${calc(snatch,70)}kg)<br><br>
+
+<b>WOD</b><br>
+15 Min AMRAP:<br>
+12 KB Swings<br>
+12 Toes To Bar<br>
+250m Row
+
+`
+},
+
+{
+day:"DOMINGO",
+type:"Recovery",
+content:`
+
+30 Min Bike Erg Z2<br>
+Mobility Full Body<br>
+Core Work 3x20
+
+`
 }
 
 ];
 
 }
 
-/* ================= OBJETIVO AEROBICO ================= */
+/* ================= AEROBICO ================= */
 
 if(goal==="Aeróbico"){
 
@@ -454,33 +339,35 @@ day:"LUNES",
 type:"Engine",
 content:`
 
-<b>AEROBIC WORK</b><br>
 5 Sets:<br>
-3min Row RPE6<br>
-1min Bike RPE8<br><br>
-
-<b>WOD</b><br>
-20 Min AMRAP:<br>
-400m Run<br>
-15 KB Swings<br>
-15 Sit Ups
+3 Min Row RPE6<br>
+1 Min Bike RPE8
 
 `
 },
 
 {
 day:"MIÉRCOLES",
-type:"Mixed Conditioning",
+type:"Conditioning",
 content:`
 
-<b>SKILL</b><br>
-Double Unders Practice 10min<br><br>
+20 Min AMRAP:<br>
+400m Run<br>
+20 Air Squats<br>
+15 Sit Ups
 
-<b>WOD</b><br>
-4 Rounds:<br>
-500m Row<br>
-20 Wall Balls<br>
-15 Toes To Bar
+`
+},
+
+{
+day:"VIERNES",
+type:"Intervals",
+content:`
+
+6 Rounds:<br>
+250m Row Sprint<br>
+15 Burpees<br>
+Rest 1 Min
 
 `
 },
@@ -490,14 +377,8 @@ day:"SÁBADO",
 type:"Long Session",
 content:`
 
-<b>ZONE 2</b><br>
-35 Min Bike Erg / Run<br><br>
-
-<b>FINISHER</b><br>
-3 Sets:<br>
-20 Air Squats<br>
-15 Push Ups<br>
-10 Pull Ups
+40 Min Zone 2 Run<br>
+Stretching + Mobility
 
 `
 }
@@ -506,7 +387,7 @@ content:`
 
 }
 
-/* ================= OBJETIVO COMPETENCIA ================= */
+/* ================= COMPETENCIA ================= */
 
 if(goal==="Competencia"){
 
@@ -514,7 +395,7 @@ routine=[
 
 {
 day:"LUNES",
-type:"Strength + WOD",
+type:"Heavy Strength",
 content:`
 
 <b>FRONT SQUAT</b><br>
@@ -543,8 +424,8 @@ content:`
 
 <b>WOD</b><br>
 AMRAP 15:<br>
-15/12 Cal Bike<br>
-15/12 Cal Row<br>
+15 Cal Bike<br>
+15 Cal Row<br>
 200m Run
 
 `
@@ -555,8 +436,8 @@ day:"JUEVES",
 type:"Clean + Gymnastics",
 content:`
 
-<b>CLEAN PULL + CLEAN + JERK</b><br>
-5 Sets @ RPE 7<br><br>
+<b>CLEAN & JERK</b><br>
+5x2 @ 75% (${calc(clean,75)}kg)<br><br>
 
 <b>STRICT RING DIPS</b><br>
 4x8<br><br>
@@ -572,21 +453,13 @@ content:`
 
 {
 day:"SÁBADO",
-type:"Competition Simulation",
+type:"Competition WOD",
 content:`
 
-<b>SNATCH</b><br>
-3-2-1-1 @ RPE 7<br><br>
-
-<b>CLEAN & JERK</b><br>
-2-2-1-1 @ RPE 7<br><br>
-
-<b>WOD</b><br>
-For Time:<br>
-30 Double Unders<br>
+5 Rounds:<br>
 12 Power Snatch<br>
-15 Cal Bike<br>
-5 Rounds
+30 Double Unders<br>
+15 Cal Bike
 
 `
 }
@@ -595,7 +468,7 @@ For Time:<br>
 
 }
 
-/* ================= OBJETIVO HIBRIDO ================= */
+/* ================= HIBRIDO ================= */
 
 if(goal==="Híbrido"){
 
@@ -606,34 +479,19 @@ day:"LUNES",
 type:"Strength",
 content:`
 
-<b>BACK SQUAT</b><br>
-5x5 @ 75% (${calc(squat,75)}kg)<br><br>
-
-<b>BENCH PRESS</b><br>
-4x8 @ 70% (${calc(bench,70)}kg)<br><br>
-
-<b>WOD</b><br>
-12 Min AMRAP:<br>
-10 Pull Ups<br>
-15 Push Ups<br>
-20 Air Squats
+BACK SQUAT 5x5 @ 75% (${calc(squat,75)}kg)<br>
+BENCH PRESS 4x8 @ 70% (${calc(bench,70)}kg)
 
 `
 },
 
 {
 day:"MIÉRCOLES",
-type:"Olympic Weightlifting",
+type:"Olympic",
 content:`
 
-<b>SNATCH</b><br>
-6x2 @ 70% (${calc(snatch,70)}kg)<br><br>
-
-<b>CLEAN & JERK</b><br>
-5x2 @ 75% (${calc(clean,75)}kg)<br><br>
-
-<b>CORE</b><br>
-4x20 GHD Sit Ups
+SNATCH 6x2 @ 70% (${calc(snatch,70)}kg)<br>
+CLEAN & JERK 5x2 @ 75% (${calc(clean,75)}kg)
 
 `
 },
@@ -643,14 +501,23 @@ day:"VIERNES",
 type:"Conditioning",
 content:`
 
-<b>WOD</b><br>
 5 Rounds:<br>
 400m Run<br>
 15 KB Swings<br>
-12 Box Jumps<br><br>
+12 Box Jumps
 
-<b>ACCESSORY</b><br>
-Farmer Carry 4x40m
+`
+},
+
+{
+day:"SÁBADO",
+type:"Hybrid WOD",
+content:`
+
+AMRAP 20:<br>
+10 Pull Ups<br>
+15 Push Ups<br>
+20 Air Squats
 
 `
 }
@@ -659,109 +526,15 @@ Farmer Carry 4x40m
 
 }
 
+/* ================= RENDER ================= */
+
 routine.slice(0,days).forEach(r=>{
+
 html+=createDay(r.day,r.type,r.content);
+
 });
 
-document.getElementById("crossfitOutput").innerHTML=html;
-
-}
-
-/* ================= MUSCULACION ================= */
-
-function generateBodybuilding(){
-
-let goal=document.getElementById("bbGoal").value;
-
-let days=parseInt(document.getElementById("bbDays").value);
-
-let bench=parseInt(document.getElementById("bbBench").value||100);
-
-let squat=parseInt(document.getElementById("bbSquat").value||140);
-
-let deadlift=parseInt(document.getElementById("bbDeadlift").value||180);
-
-let html=`<h2>💪 Planificación Musculación</h2>`;
-
-if(goal==="Hipertrofia"){
-
-html+=createDay("PUSH","Hipertrofia",`
-
-Bench Press 4x10 @ 70% (${calc(bench,70)}kg)<br>
-Incline DB Press 4x12<br>
-Shoulder Press 4x10<br>
-Lateral Raises 4x15<br>
-Tricep Pushdown 4x15
-
-`);
-
-html+=createDay("PULL","Hipertrofia",`
-
-Barbell Row 4x10<br>
-Lat Pulldown 4x12<br>
-Cable Row 4x12<br>
-Face Pull 4x15<br>
-Barbell Curl 4x12
-
-`);
-
-html+=createDay("LEGS","Hipertrofia",`
-
-Back Squat 4x10 @ 70% (${calc(squat,70)}kg)<br>
-Romanian Deadlift 4x10<br>
-Leg Press 4x15<br>
-Leg Curl 4x15<br>
-Calf Raises 4x20
-
-`);
-
-}
-
-if(goal==="Fuerza"){
-
-html+=createDay("UPPER","Strength",`
-
-Bench Press 5x5 @ 80% (${calc(bench,80)}kg)<br>
-Overhead Press 5x5<br>
-Weighted Pull Ups 5x5<br>
-Pendlay Row 5x5
-
-`);
-
-html+=createDay("LOWER","Strength",`
-
-Back Squat 5x5 @ 80% (${calc(squat,80)}kg)<br>
-Deadlift 5x3 @ 85% (${calc(deadlift,85)}kg)<br>
-Front Squat 4x5<br>
-Core Work
-
-`);
-
-}
-
-if(goal==="Powerbuilding"){
-
-html+=createDay("UPPER POWER","Powerbuilding",`
-
-Bench Press 5x5 @ 80% (${calc(bench,80)}kg)<br>
-Incline DB Press 4x12<br>
-Weighted Pull Ups 5x5<br>
-Rows 4x10
-
-`);
-
-html+=createDay("LOWER POWER","Powerbuilding",`
-
-Back Squat 5x5 @ 80% (${calc(squat,80)}kg)<br>
-Deadlift 5x3 @ 85% (${calc(deadlift,85)}kg)<br>
-Bulgarian Split Squat 4x12<br>
-Leg Press 4x15
-
-`);
-
-}
-
-document.getElementById("bodybuildingOutput").innerHTML=html;
+document.getElementById("output").innerHTML=html;
 
 }
 
