@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELITE TRAINING AI PRO</title>
+<title>ELITE TRAINING SYSTEM AI PRO</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:20px;
 }
 
 .container{
-max-width:1600px;
+max-width:1700px;
 margin:auto;
 }
 
@@ -123,9 +123,19 @@ border-radius:10px;
 margin-bottom:10px;
 }
 
-.small{
-opacity:0.8;
-font-size:14px;
+.progress{
+height:24px;
+background:#1e293b;
+border-radius:12px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#22c55e;
+transition:1s;
 }
 
 </style>
@@ -135,19 +145,117 @@ font-size:14px;
 
 <div class="container">
 
-<h1>🏋️ ELITE TRAINING AI PRO</h1>
+<h1>🏋️ ELITE TRAINING SYSTEM AI PRO</h1>
 
 <div class="tabs">
 
-<button class="tab-btn active" onclick="openTab(event,'bodybuilding')">
+<button class="tab-btn active" onclick="openTab(event,'crossfit')">
+CrossFit
+</button>
+
+<button class="tab-btn" onclick="openTab(event,'bodybuilding')">
 Musculación
 </button>
 
 </div>
 
+<!-- ================= CROSSFIT ================= -->
+
+<div id="crossfit" class="panel active">
+
+<h2>🏋️ CrossFit Inteligente</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Objetivo</h3>
+
+<select id="cfGoal">
+
+<option>Fuerza</option>
+<option>Aeróbico</option>
+<option>Competencia</option>
+<option>Híbrido</option>
+
+</select>
+</div>
+
+<div class="card">
+<h3>Días/Semana</h3>
+
+<select id="cfDays">
+
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+
+</select>
+</div>
+
+<div class="card">
+<h3>Nivel</h3>
+
+<select id="cfLevel">
+
+<option>Principiante</option>
+<option>Intermedio</option>
+<option>Avanzado</option>
+
+</select>
+</div>
+
+</div>
+
+<!-- RM CROSSFIT -->
+
+<h2 style="margin-top:30px;">🏋️ RM CrossFit</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Back Squat RM</h3>
+<input type="number" id="cfSquatRM">
+</div>
+
+<div class="card">
+<h3>Deadlift RM</h3>
+<input type="number" id="cfDeadliftRM">
+</div>
+
+<div class="card">
+<h3>Bench Press RM</h3>
+<input type="number" id="cfBenchRM">
+</div>
+
+<div class="card">
+<h3>Strict Press RM</h3>
+<input type="number" id="cfPressRM">
+</div>
+
+<div class="card">
+<h3>Clean RM</h3>
+<input type="number" id="cfCleanRM">
+</div>
+
+<div class="card">
+<h3>Snatch RM</h3>
+<input type="number" id="cfSnatchRM">
+</div>
+
+</div>
+
+<button onclick="generateCrossfit()">
+GENERAR CROSSFIT
+</button>
+
+<div id="crossfitOutput"></div>
+
+</div>
+
 <!-- ================= MUSCULACION ================= -->
 
-<div id="bodybuilding" class="panel active">
+<div id="bodybuilding" class="panel">
 
 <h2>💪 Musculación Inteligente</h2>
 
@@ -196,56 +304,56 @@ Musculación
 
 </div>
 
-<!-- ================= RM INPUTS ================= -->
+<!-- RM MUSCULACION -->
 
-<h2 style="margin-top:30px;">🏋️ Configuración RM</h2>
+<h2 style="margin-top:30px;">🏋️ RM Musculación</h2>
 
 <div class="grid">
 
 <div class="card">
 <h3>Bench Press RM</h3>
-<input type="number" id="benchRM" placeholder="Ej: 100">
+<input type="number" id="benchRM">
 </div>
 
 <div class="card">
 <h3>Incline Bench RM</h3>
-<input type="number" id="inclineRM" placeholder="Ej: 90">
+<input type="number" id="inclineRM">
 </div>
 
 <div class="card">
 <h3>Overhead Press RM</h3>
-<input type="number" id="ohpRM" placeholder="Ej: 70">
+<input type="number" id="ohpRM">
 </div>
 
 <div class="card">
 <h3>Barbell Row RM</h3>
-<input type="number" id="rowRM" placeholder="Ej: 100">
+<input type="number" id="rowRM">
 </div>
 
 <div class="card">
 <h3>Weighted Pullup RM</h3>
-<input type="number" id="pullupRM" placeholder="Ej: 40">
+<input type="number" id="pullupRM">
 </div>
 
 <div class="card">
 <h3>Back Squat RM</h3>
-<input type="number" id="squatRM" placeholder="Ej: 140">
+<input type="number" id="squatRM">
 </div>
 
 <div class="card">
 <h3>Deadlift RM</h3>
-<input type="number" id="deadliftRM" placeholder="Ej: 180">
+<input type="number" id="deadliftRM">
 </div>
 
 <div class="card">
 <h3>Front Squat RM</h3>
-<input type="number" id="frontSquatRM" placeholder="Ej: 120">
+<input type="number" id="frontSquatRM">
 </div>
 
 </div>
 
 <button onclick="generateRoutine()">
-GENERAR RUTINA
+GENERAR MUSCULACIÓN
 </button>
 
 <div id="output"></div>
@@ -255,6 +363,8 @@ GENERAR RUTINA
 </div>
 
 <script>
+
+/* ================= TABS ================= */
 
 function openTab(event,id){
 
@@ -308,7 +418,150 @@ Peso objetivo: ${weight} kg
 
 }
 
-/* ================= GENERADOR ================= */
+/* ================= CROSSFIT ================= */
+
+const cfSkills=[
+"Toes To Bar",
+"Handstand Walk",
+"Ring Muscle Up",
+"Chest To Bar",
+"Bar Muscle Up",
+"Double Unders"
+];
+
+const cfWods=[
+
+`
+AMRAP 15:
+10 Pullups
+15 Wall Balls
+200m Run
+`,
+
+`
+FOR TIME:
+21-15-9
+Thrusters
+Burpees
+`,
+
+`
+EMOM 18:
+12 Cal Bike
+10 Deadlifts
+8 Pullups
+`,
+
+`
+5 ROUNDS:
+400m Run
+15 KB Swings
+15 Box Jumps
+`
+
+];
+
+function random(arr){
+return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function generateCrossfit(){
+
+let days=parseInt(document.getElementById("cfDays").value);
+
+let squatRM=parseInt(document.getElementById("cfSquatRM").value||140);
+
+let deadliftRM=parseInt(document.getElementById("cfDeadliftRM").value||180);
+
+let benchRM=parseInt(document.getElementById("cfBenchRM").value||100);
+
+let pressRM=parseInt(document.getElementById("cfPressRM").value||70);
+
+let cleanRM=parseInt(document.getElementById("cfCleanRM").value||120);
+
+let snatchRM=parseInt(document.getElementById("cfSnatchRM").value||90);
+
+let html=`<h2>🔥 Programación CrossFit</h2>`;
+
+let strengthDays=[
+
+exercise("Back Squat",5,5,80,squatRM),
+
+exercise("Deadlift",5,5,82,deadliftRM),
+
+exercise("Bench Press",5,5,80,benchRM),
+
+exercise("Strict Press",5,5,75,pressRM),
+
+exercise("Clean",6,2,85,cleanRM),
+
+exercise("Snatch",6,2,82,snatchRM)
+
+];
+
+for(let i=1;i<=days;i++){
+
+html+=`
+
+<div class="day">
+
+<h2>📅 Día ${i}</h2>
+
+<div class="block">
+
+<h3>🔥 Warmup</h3>
+
+500m Row + Dynamic Stretch + Mobility
+
+</div>
+
+<div class="block">
+
+<h3>💪 Strength</h3>
+
+${strengthDays[i-1]}
+
+</div>
+
+<div class="block">
+
+<h3>🤸 Skill</h3>
+
+${random(cfSkills)}
+
+<br><br>
+
+4 Sets Técnica
+
+</div>
+
+<div class="block">
+
+<h3>🔥 WOD</h3>
+
+${random(cfWods)}
+
+</div>
+
+<div class="block">
+
+<h3>🧘 Cooldown</h3>
+
+5-10 Min Mobility Flow
+
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("crossfitOutput").innerHTML=html;
+
+}
+
+/* ================= MUSCULACION ================= */
 
 function generateRoutine(){
 
@@ -317,8 +570,6 @@ let goal=document.getElementById("goal").value;
 let days=parseInt(document.getElementById("days").value);
 
 let trainLegs=document.getElementById("legs").value;
-
-/* ================= RMS ================= */
 
 let benchRM=parseInt(document.getElementById("benchRM").value||100);
 
@@ -342,8 +593,6 @@ let html=`<h2>💪 Rutina ${goal}</h2>`;
 
 if(goal==="Hipertrofia"){
 
-if(days===2){
-
 if(trainLegs==="no"){
 
 html+=`
@@ -360,14 +609,6 @@ ${exercise("Incline Bench Press",4,12,70,inclineRM)}
 
 ${exercise("Overhead Press",4,10,68,ohpRM)}
 
-<div class="exercise">
-Lateral Raises 4x15
-</div>
-
-<div class="exercise">
-Tricep Pushdown 4x15
-</div>
-
 </div>
 
 </div>
@@ -381,18 +622,6 @@ Tricep Pushdown 4x15
 ${exercise("Barbell Row",4,10,72,rowRM)}
 
 ${exercise("Weighted Pullup",4,8,75,pullupRM)}
-
-<div class="exercise">
-Lat Pulldown 4x12
-</div>
-
-<div class="exercise">
-Face Pull 4x15
-</div>
-
-<div class="exercise">
-Barbell Curl 4x12
-</div>
 
 </div>
 
@@ -414,8 +643,6 @@ ${exercise("Bench Press",4,10,72,benchRM)}
 
 ${exercise("Barbell Row",4,10,72,rowRM)}
 
-${exercise("Overhead Press",4,10,68,ohpRM)}
-
 </div>
 
 </div>
@@ -431,10 +658,6 @@ ${exercise("Back Squat",4,10,72,squatRM)}
 ${exercise("Deadlift",4,8,75,deadliftRM)}
 
 ${exercise("Front Squat",4,10,70,frontSquatRM)}
-
-<div class="exercise">
-Leg Press 4x15
-</div>
 
 </div>
 
@@ -472,22 +695,6 @@ ${exercise("Barbell Row",5,5,82,rowRM)}
 
 </div>
 
-<div class="day">
-
-<h2>🏋️ Upper Strength B</h2>
-
-<div class="block">
-
-${exercise("Incline Bench",5,5,85,inclineRM)}
-
-${exercise("Barbell Row",5,5,85,rowRM)}
-
-${exercise("Weighted Pullup",5,5,85,pullupRM)}
-
-</div>
-
-</div>
-
 `;
 
 }else{
@@ -503,8 +710,6 @@ html+=`
 ${exercise("Bench Press",5,5,82,benchRM)}
 
 ${exercise("Overhead Press",5,5,80,ohpRM)}
-
-${exercise("Barbell Row",5,5,82,rowRM)}
 
 </div>
 
@@ -550,8 +755,6 @@ ${exercise("Incline Bench",4,10,72,inclineRM)}
 
 ${exercise("Barbell Row",5,5,80,rowRM)}
 
-${exercise("Weighted Pullup",4,8,75,pullupRM)}
-
 </div>
 
 </div>
@@ -573,10 +776,6 @@ ${exercise("Back Squat",5,5,82,squatRM)}
 ${exercise("Deadlift",5,3,87,deadliftRM)}
 
 ${exercise("Front Squat",4,8,75,frontSquatRM)}
-
-<div class="exercise">
-Leg Press 4x15
-</div>
 
 </div>
 
